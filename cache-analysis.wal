@@ -1,9 +1,11 @@
+;; Macro for defining call-backs 
 (defmacro define-callback args
   (define name (first args))
   (define params (second args))
   (define body (rest (rest args)))
   `(define ,name (lambda ,params ,@body)))
 
+;; New cache metrics can be defined using the define-cache-metric macro 
 (defmacro define-cache-metric body
     (define name body[0])
     (define extra-functions
@@ -88,6 +90,10 @@
   (define-cache-metric cache/average-delay
     (define responses 0)
     (define acc-delay 0)
+    ;; define a function 
+    ;; req = the time at which the current request started
+    ;; rsp = the time at which the response arrived
+    ;; end = upper-bound timestamp of the current analysis
     (define-callback on-response [req rsp end]
       (inc responses)
       (set! acc-delay (+ acc-delay (- rsp req))))

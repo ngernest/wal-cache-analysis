@@ -13,9 +13,10 @@
 (alias instr-req TOP.ibex_simple_system.u_top.u_ibex_top.u_ibex_core.if_stage_i.gen_icache.icache_i.instr_req_o)
 (alias instr-gnt TOP.ibex_simple_system.u_top.u_ibex_top.u_ibex_core.if_stage_i.gen_icache.icache_i.instr_gnt_i)
 
-;; Define when signals are sampled
+;; Define when signals are sampled (upon rising clock edges)
 (defmacro cache-sampling [] '(rising clk))
 ;; Defines condition to match a new request
+;; A request starts when the 
 (defmacro cache-request []
   '(&& ready
        (! (&& ready (= 0 valid isbranch))@-1)))
